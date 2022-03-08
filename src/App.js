@@ -1,8 +1,10 @@
-import Card from './components/Cards/Card'
+import Card from './components/dragdrop/Card'
+import './App.css'
+
 function App() {
   return (
     <>
-        <Card name={"Abby"}/>
+        <Card/>
     </>
   );
 }
