@@ -19,7 +19,7 @@ const Wordle = ({ word }) => {
         <>
             <table>
                 <tbody>
-                    <tr>{wordList && wordList.map((w, index) => <Tile letter={w} column={index} setRow={setFirstRow} />)}</tr>
+                    <tr>{wordList && wordList.map((w, index) => <Tile letter={w} column={index} row={firstRow} setRow={setFirstRow} />)}</tr>
                     {/* <tr>{wordList && wordList.map(w => <Tile letter={w} row={secondRow} setRow={setSecondRow} />)}</tr>
                     <tr>{wordList && wordList.map(w => <Tile letter={w} row={thirdRow} setRow={setThirdRow} />)}</tr>
                     <tr>{wordList && wordList.map(w => <Tile letter={w} row={fourthRow} setRow={setFourthRow} />)}</tr>

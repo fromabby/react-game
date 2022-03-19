@@ -3,6 +3,8 @@ import React, { useState, useEffect, useDebugValue } from 'react'
 const Tile = ({ letter, column, row, setRow }) => {
 
     const [value, setValue] = useState('')
+    const [bgColor, setBgColor] = useState('black')
+    const [finalLetter, setFinalLetter] = useState('')
 
     const onKeyUp = e => {
         if (e.charCode === 13) {
@@ -16,20 +18,29 @@ const Tile = ({ letter, column, row, setRow }) => {
             newRow[column] = letter
             return [...newRow]
         })
+        setFinalLetter(letter)
     }
 
-
     useEffect(() => {
-        if(value.length > 1) {
-            setValue(value.substring(0,1))
-            console.log(column)
+        if (value.length > 1) {
+            setValue(value.substring(0, 1))
         }
     }, [value])
 
+    useEffect(() => {
+        if (letter.toLowerCase() === finalLetter.toLowerCase()) {
+            setBgColor('green')
+        } else {
+            setBgColor('black')
+        }
+    }, [finalLetter])
+
     return (
         <>
-            <td>{letter}</td>
-            <input type="text" value={value} onChange={e => setValue(e.target.value)} onKeyPress={onKeyUp} pattern="[a-zA-Z]{1}" />
+            <td style={{ backgroundColor: bgColor }}>
+                <input type="text" value={value} onChange={e => setValue(e.target.value)} onKeyPress={onKeyUp} pattern="[a-zA-Z]{1}" />
+            </td>
+
         </>
     )
 }
