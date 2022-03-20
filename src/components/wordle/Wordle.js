@@ -3,7 +3,7 @@ import TileRow from './TileRow'
 
 const Wordle = ({ word, setIsWon }) => {
     const [currentRow, setCurrentRow] = useState(0)
-    const [row, setRow] = useState(['', '', '', '', ''])
+    const [answer, setAnswer] = useState(['', '', '', '', ''])
     const [rows, setRows] = useState([
         ['', '', '', '', ''],
         ['', '', '', '', ''],
@@ -13,26 +13,18 @@ const Wordle = ({ word, setIsWon }) => {
         ['', '', '', '', '']
     ])
 
-    const compare = (answer, row) => {
-        let ctr = 0
+    const compare = (answer, word) => {
         for (var i = 0; i < answer.length; i++) {
-            if (answer[i] === '' || answer[i] !== row[i]) {
-                ctr++
-                console.log('incremented ctr')
-            }
+            if (answer[i] === '' || answer[i] !== word[i]) return false
         }
-
-        if (ctr !== 0) return false
 
         return true
     }
 
     useEffect(() => {
-        updateRowsContent(row, currentRow)
-        if (compare(row, word)) {
-            setIsWon(true)
-        }
-    }, [row, currentRow])
+        updateRowsContent(answer, currentRow)
+        compare(answer, word) && setIsWon(true)
+    }, [answer, currentRow])
 
     const updateRowsContent = (answer, index) => {
         setRows(row => {
@@ -48,7 +40,7 @@ const Wordle = ({ word, setIsWon }) => {
                 word={word}
                 disabled={currentRow === num ? false : true}
                 setCurrentRow={setCurrentRow}
-                setRow={setRow}
+                setAnswer={setAnswer}
                 key={num}
             />
         ))

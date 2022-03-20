@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Tile from './Tile'
 
-const TileRow = ({ word, disabled, setCurrentRow, setRow }) => {
+const TileRow = ({ word, disabled, setCurrentRow, setAnswer }) => {
 
     const [pressed, setPressed] = useState(false)
 
@@ -22,9 +22,10 @@ const TileRow = ({ word, disabled, setCurrentRow, setRow }) => {
                                 letter={letter}
                                 column={column}
                                 setPressed={setPressed}
-                                setRow={setRow}
+                                setAnswer={setAnswer}
                                 pressed={pressed}
                                 disabled={disabled}
+                                key={column}
                             />
                         )}
                         <td>
