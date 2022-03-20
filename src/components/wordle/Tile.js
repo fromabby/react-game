@@ -12,41 +12,34 @@ const Tile = ({ word, letter, column, setPressed, setRow, pressed, disabled }) =
             newRow[column] = letter
             return [...newRow]
         })
-        setFinalLetter(letter)
+        setFinalLetter(letter.toLowerCase())
     }
 
     useEffect(() => {
         if (value.length > 1) {
             setValue(value.substring(0, 1))
         }
+
         if (pressed) {
             updateRow(value)
-        }
-    }, [value, pressed])
-
-    useEffect(() => {
-        if (pressed) {
-            if (letter.toLowerCase() === finalLetter.toLowerCase()) {
+            if (letter === finalLetter) {
                 setBgColor('green')
-            } else if (word.includes(finalLetter.toLowerCase())) {
+            } else if (word.includes(finalLetter)) {
                 setBgColor('yellow')
             }
             else {
                 setBgColor('black')
             }
         }
-    }, [finalLetter])
+    }, [value, finalLetter, pressed])
 
     return (
-        <>
-            <td style={{ backgroundColor: bgColor }}>
-                <input type="text" value={value} onChange={e => {
-                    setValue(e.target.value)
-                    setPressed(false)
-                }} pattern="[a-zA-Z]{1}" disabled={disabled} required/>
-            </td>
-
-        </>
+        <td style={{ backgroundColor: bgColor }}>
+            <input type="text" value={value} onChange={e => {
+                setValue(e.target.value)
+                setPressed(false)
+            }} pattern="[a-zA-Z]{1}" disabled={disabled} required />
+        </td>
     )
 }
 

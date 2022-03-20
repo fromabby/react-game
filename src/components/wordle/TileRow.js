@@ -5,28 +5,35 @@ const TileRow = ({ word, disabled, setCurrentRow, setRow }) => {
 
     const [pressed, setPressed] = useState(false)
 
-    const onKeyUp = (e) => {
+    const onKeyUp = e => {
         e.preventDefault()
         setPressed(true)
         setCurrentRow(v => v + 1)
     }
 
     return (
-        <>
-            <form onSubmit={onKeyUp}>
-                <table>
-                    <tbody>
-
-                        <tr>
-                            {word && word.map((w, index) => <Tile word={word} letter={w} column={index} setPressed={setPressed} setRow={setRow} pressed={pressed} disabled={disabled} />)}
-                            <td>
-                                <input type="submit" value="submit" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-        </>
+        <form onSubmit={onKeyUp}>
+            <table>
+                <tbody>
+                    <tr>
+                        {word && word.map((letter, column) =>
+                            <Tile
+                                word={word}
+                                letter={letter}
+                                column={column}
+                                setPressed={setPressed}
+                                setRow={setRow}
+                                pressed={pressed}
+                                disabled={disabled}
+                            />
+                        )}
+                        <td>
+                            <input type="submit" value="submit" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
     )
 }
 
