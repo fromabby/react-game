@@ -6,7 +6,7 @@ function App() {
     return (
         <>
             {/* <Card/> */}
-            <Wordle word={"GRAVY"}/>
+            <Wordle word={"bonak"}/>
         </>
     );
 }
