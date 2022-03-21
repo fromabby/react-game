@@ -13,12 +13,10 @@ function App() {
     const compute = (current, row) => {
         return current + (6 / (row + 1)) * 10
     }
-    
+
     useEffect(() => {
         if (isWon) {
             setScore(v => compute(v, currentRow))
-            // setCurrentRow(0)
-            // setIsWon(false)
             const timeout = setTimeout(() => setDisplayWinner(true), 500)
             return () => { clearTimeout(timeout) }
         }
@@ -44,6 +42,7 @@ function App() {
                         isWon={isWon}
                         setCurrentRow={setCurrentRow}
                         setDisplayWinner={setDisplayWinner}
+                        setScore={setScore}
                     /> :
                     <div>
                         <p style={{ color: 'white' }}>score: {score}</p>
