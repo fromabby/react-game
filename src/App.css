@@ -1,10 +1,23 @@
 body {
-    background-color: #8D8984;
+    background-color: #1f1d1d;
+    font-family: 'Times New Roman', Times, serif;
 }
+
+#title-container {
+    text-align: center;
+    color: white;
+}
+
+#title-container h1 {
+    font-size: 100px;
+    margin-bottom: -30px;
+}
+
+#title-container p {}
 
 #board-container {
     width: fit-content;
-    background-color: #8D8984;
+    background-color: #1f1d1d;
     margin: 50px auto;
 }
 
@@ -12,7 +25,7 @@ body {
     width: 97px;
     height: 98px;
     border-radius: 20px;
-    background-color: #1f1e1d;
+    background-color: #1f1d1d;
 }
 
 input[type="text"] {

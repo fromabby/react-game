@@ -27,9 +27,9 @@ function App() {
     console.log(isWon)
     return (
         <div>
-            <div style={{textAlign: 'center'}}>
+            <div id="title-container">
                 <h1>WORDLE</h1>
-                <h4>start guessing!</h4>
+                <p>start guessing!</p>
             </div>
             <div id="board-container">
                 {displayWinner ?
