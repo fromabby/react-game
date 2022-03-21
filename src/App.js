@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Card from './components/dragdrop/Card'
+import { words } from './words.js'
 import Wordle from './components/wordle/Wordle'
 import Winner from './components/wordle/EndScreen'
 import './App.css'
@@ -8,9 +8,17 @@ function App() {
     const [isWon, setIsWon] = useState(false)
     const [currentRow, setCurrentRow] = useState(0)
     const [displayWinner, setDisplayWinner] = useState(false)
+    const [score, setScore] = useState(0)
 
+    const compute = (current, row) => {
+        return current + (6 / (row + 1)) * 10
+    }
+    
     useEffect(() => {
         if (isWon) {
+            setScore(v => compute(v, currentRow))
+            // setCurrentRow(0)
+            // setIsWon(false)
             const timeout = setTimeout(() => setDisplayWinner(true), 500)
             return () => { clearTimeout(timeout) }
         }
@@ -23,8 +31,6 @@ function App() {
         }
     }, [currentRow])
 
-    console.log(currentRow)
-    console.log(isWon)
     return (
         <div>
             <div id="title-container">
@@ -39,12 +45,16 @@ function App() {
                         setCurrentRow={setCurrentRow}
                         setDisplayWinner={setDisplayWinner}
                     /> :
-                    <Wordle
-                        word={['b', 'o', 'n', 'a', 'k']}
-                        setIsWon={setIsWon}
-                        setCurrentRow={setCurrentRow}
-                        currentRow={currentRow}
-                    />
+                    <div>
+                        <p style={{ color: 'white' }}>score: {score}</p>
+                        <Wordle
+                            question={words[Math.floor(Math.random() * 10)]}
+                            setIsWon={setIsWon}
+                            setCurrentRow={setCurrentRow}
+                            currentRow={currentRow}
+                        />
+
+                    </div>
                 }
             </div>
         </div>

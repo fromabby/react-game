@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import TileRow from './TileRow'
 
-const Wordle = ({ word, setIsWon, setCurrentRow, currentRow }) => {
+const Wordle = ({ question, setIsWon, setCurrentRow, currentRow }) => {
     const [answer, setAnswer] = useState(['', '', '', '', ''])
+    const [word, setWord] = useState([])
     const [rows, setRows] = useState([
         ['', '', '', '', ''],
         ['', '', '', '', ''],
@@ -11,14 +12,29 @@ const Wordle = ({ word, setIsWon, setCurrentRow, currentRow }) => {
         ['', '', '', '', ''],
         ['', '', '', '', '']
     ])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        if (loading) {
+            let arr = []
+            for (var i = 0; i < 5; i++) {
+                arr.push(question[i])
+            }
+            setWord(arr)
+            setLoading(false)
+        }
+    }, [question])
 
     const compare = (answer, word) => {
         for (var i = 0; i < answer.length; i++) {
             if (answer[i] === '' || answer[i] !== word[i]) return false
         }
-        // console.log(true)
+
+        console.log('here')
         return true
     }
+
+    console.log(question)
 
     useEffect(() => {
         updateRowsContent(answer, currentRow)
@@ -41,7 +57,7 @@ const Wordle = ({ word, setIsWon, setCurrentRow, currentRow }) => {
     }
 
     return (
-        [0, 1, 2, 3, 4, 5].map(num => (
+        !loading && [0, 1, 2, 3, 4, 5].map(num => (
             <TileRow
                 word={word}
                 disabled={currentRow === num ? false : true}
