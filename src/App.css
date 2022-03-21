@@ -1,3 +1,7 @@
+body {
+    background-color: #8D8984;
+}
+
 #board-container {
     width: fit-content;
     background-color: #8D8984;

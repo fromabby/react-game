@@ -29,7 +29,7 @@ const TileRow = ({ word, disabled, setCurrentRow, setAnswer }) => {
                             />
                         )}
                         <td>
-                            <input type="submit" value="submit" />
+                            <input type="submit" value="submit" style={{display: 'none'}}/>
                         </td>
                     </tr>
                 </tbody>

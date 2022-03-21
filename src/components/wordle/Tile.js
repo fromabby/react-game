@@ -15,7 +15,7 @@ const Tile = ({ word, letter, column, setPressed, setAnswer, pressed, disabled }
     }
 
     useEffect(() => {
-        value.length > 1 && setValue(value.substring(0, 1))
+        value.length > 1 && setValue(value.substring(1, 2))
 
         pressed && updateRow(value)
 
