@@ -23,28 +23,31 @@ const Wordle = ({ word, setIsWon }) => {
 
     useEffect(() => {
         updateRowsContent(answer, currentRow)
-        compare(answer, word) && setIsWon(true)
+        if(compare(answer, word)) {
+            setCurrentRow(v => v - 1)
+            setIsWon(true)
+        }
     }, [answer, currentRow])
 
-    const updateRowsContent = (answer, index) => {
-        setRows(row => {
-            let curr = [...row]
-            curr[index - 1] = answer
-            return [...curr]
-        })
-    }
+const updateRowsContent = (answer, index) => {
+    setRows(row => {
+        let curr = [...row]
+        curr[index - 1] = answer
+        return [...curr]
+    })
+}
 
-    return (
-        [0, 1, 2, 3, 4, 5].map(num => (
-            <TileRow
-                word={word}
-                disabled={currentRow === num ? false : true}
-                setCurrentRow={setCurrentRow}
-                setAnswer={setAnswer}
-                key={num}
-            />
-        ))
-    )
+return (
+    [0, 1, 2, 3, 4, 5].map(num => (
+        <TileRow
+            word={word}
+            disabled={currentRow === num ? false : true}
+            setCurrentRow={setCurrentRow}
+            setAnswer={setAnswer}
+            key={num}
+        />
+    ))
+)
 }
 
 export default Wordle
