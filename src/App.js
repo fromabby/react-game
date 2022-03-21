@@ -28,8 +28,8 @@ function App() {
     return (
         <div>
             <div id="title-container">
-                <h1>WORDLE</h1>
-                <p>start guessing!</p>
+                <h1>MGA WORDS</h1>
+                <p>hindi masasama</p>
             </div>
             <div id="board-container">
                 {displayWinner ?
