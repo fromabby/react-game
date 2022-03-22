@@ -1,18 +1,34 @@
 import React, { useState, useEffect } from 'react'
-import { words } from './words.js'
 import Wordle from './components/wordle/Wordle'
 import Winner from './components/wordle/EndScreen'
 import './App.css'
+import wordlist from "wordle-wordlist"
 
 function App() {
     const [isWon, setIsWon] = useState(false)
     const [currentRow, setCurrentRow] = useState(0)
     const [displayWinner, setDisplayWinner] = useState(false)
     const [score, setScore] = useState(0)
+    const [words, setWords] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const compute = (current, row) => {
         return current + (6 / (row + 1)) * 10
     }
+
+    useEffect(() => {
+        const getWords = async () => {
+            try {
+                const allowedGuesses = await wordlist.guesses()
+
+                setWords(allowedGuesses)
+                setLoading(false)
+            } catch (error) {
+                window.alert('wrong')
+            }
+        }
+        getWords()
+    }, [])
 
     useEffect(() => {
         if (isWon) {
@@ -29,6 +45,12 @@ function App() {
         }
     }, [currentRow])
 
+    function getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min; // max & min both included 
+      }
+
     return (
         <div>
             <div id="title-container">
@@ -36,7 +58,7 @@ function App() {
                 <p>hindi masasama</p>
             </div>
             <div id="board-container">
-                {displayWinner ?
+                {!loading && displayWinner ?
                     <Winner
                         setIsWon={setIsWon}
                         isWon={isWon}
@@ -46,13 +68,14 @@ function App() {
                     /> :
                     <div>
                         <p style={{ color: 'white' }}>score: {score}</p>
-                        <Wordle
-                            question={words[Math.floor(Math.random() * 10)]}
-                            setIsWon={setIsWon}
-                            setCurrentRow={setCurrentRow}
-                            currentRow={currentRow}
-                        />
-
+                        {words && words.length > 0 &&
+                            <Wordle
+                                question={words[getRandomIntInclusive(0, words.length)]}
+                                setIsWon={setIsWon}
+                                setCurrentRow={setCurrentRow}
+                                currentRow={currentRow}
+                            />
+                        }
                     </div>
                 }
             </div>
