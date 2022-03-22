@@ -42,6 +42,32 @@ input[type="text"] {
     /* color: transparent */
 }
 
+.keyboard {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.key-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.key {
+    width: 92px;
+    height: 94px;
+    margin: 0 auto;
+    font-size: 3rem;
+    text-align: center;
+    text-transform: uppercase;
+    background-color: azure;
+    color: #3c3c3c;
+    border-radius: 10px;
+}
+
 
 /* 
 td {

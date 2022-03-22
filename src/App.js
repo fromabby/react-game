@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Wordle from './components/wordle/Wordle'
-import Winner from './components/wordle/EndScreen'
+import EndScreen from './components/wordle/EndScreen'
 import './App.css'
 import wordlist from "wordle-wordlist"
+import Keyboard from './components/wordle/keyboard/Keyboard'
 
 function App() {
     const [isWon, setIsWon] = useState(false)
@@ -27,14 +28,13 @@ function App() {
                 window.alert('wrong')
             }
         }
-        getWords()
-    }, [])
 
-    useEffect(() => {
         if (isWon) {
             setScore(v => compute(v, currentRow))
             const timeout = setTimeout(() => setDisplayWinner(true), 500)
             return () => { clearTimeout(timeout) }
+        } else {
+            getWords()
         }
     }, [isWon])
 
@@ -49,7 +49,7 @@ function App() {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min; // max & min both included 
-      }
+    }
 
     return (
         <div>
@@ -59,7 +59,7 @@ function App() {
             </div>
             <div id="board-container">
                 {!loading && displayWinner ?
-                    <Winner
+                    <EndScreen
                         setIsWon={setIsWon}
                         isWon={isWon}
                         setCurrentRow={setCurrentRow}
@@ -78,6 +78,8 @@ function App() {
                         }
                     </div>
                 }
+
+                <Keyboard />
             </div>
         </div>
     );

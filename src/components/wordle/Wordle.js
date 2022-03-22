@@ -29,8 +29,6 @@ const Wordle = ({ question, setIsWon, setCurrentRow, currentRow }) => {
         for (var i = 0; i < answer.length; i++) {
             if (answer[i] === '' || answer[i] !== word[i]) return false
         }
-
-        console.log('here')
         return true
     }
 
