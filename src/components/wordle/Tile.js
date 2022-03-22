@@ -3,7 +3,6 @@ import React, { useState, useEffect, useDebugValue } from 'react'
 const Tile = ({ word, letter, column, setPressed, setAnswer, pressed, disabled }) => {
 
     const [value, setValue] = useState('')
-    const [finalLetter, setFinalLetter] = useState('')
 
     const updateRow = letter => {
         setAnswer(row => {
@@ -11,7 +10,7 @@ const Tile = ({ word, letter, column, setPressed, setAnswer, pressed, disabled }
             newRow[column] = letter
             return [...newRow]
         })
-        setFinalLetter(letter.toLowerCase())
+        setValue(letter.toLowerCase())
     }
 
     useEffect(() => {
@@ -19,11 +18,11 @@ const Tile = ({ word, letter, column, setPressed, setAnswer, pressed, disabled }
 
         pressed && updateRow(value)
 
-    }, [value, finalLetter, pressed])
+    }, [value, pressed])
 
     return (
         <td>
-            <div className="square" style={{ backgroundColor: letter === finalLetter ? 'green' : word.includes(finalLetter) ? 'yellow' : '#8d8984' }}>
+            <div className="square" style={{ backgroundColor: letter === value ? 'green' : word.includes(value) ? 'yellow' : '#8d8984' }}>
                 <input type="text" value={value} onChange={e => {
                     setValue(e.target.value)
                     setPressed(false)
