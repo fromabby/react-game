@@ -1,7 +1,7 @@
 import React from 'react'
 import Row from './Row'
 
-export const Keyboard = () => {
+export const Keyboard = ({ usedLetters }) => {
 
     const letters = [
         ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
@@ -15,7 +15,7 @@ export const Keyboard = () => {
                 <tbody>
                     {letters.map(row => (
                         <tr>
-                            <Row letters={row} />
+                            <Row letters={row} usedLetters={usedLetters}/>
                         </tr>
                     ))}
                 </tbody>

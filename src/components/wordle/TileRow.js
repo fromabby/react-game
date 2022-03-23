@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Tile from './Tile'
 
-const TileRow = ({ word, disabled, setCurrentRow, setAnswer }) => {
+const TileRow = ({ word, disabled, setCurrentRow, setAnswer, setUsedLetters }) => {
 
     const [pressed, setPressed] = useState(false)
 
@@ -25,11 +25,12 @@ const TileRow = ({ word, disabled, setCurrentRow, setAnswer }) => {
                                 setAnswer={setAnswer}
                                 pressed={pressed}
                                 disabled={disabled}
+                                setUsedLetters={setUsedLetters}
                                 key={column}
                             />
                         )}
                         <td>
-                            <input type="submit" value="submit" style={{display: 'none'}}/>
+                            <input type="submit" value="submit" style={{ display: 'none' }} />
                         </td>
                     </tr>
                 </tbody>

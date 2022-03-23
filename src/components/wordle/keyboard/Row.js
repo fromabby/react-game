@@ -1,12 +1,12 @@
 import React from 'react'
 import Key from './Key'
 
-const Row = ({ letters }) => {
+const Row = ({ letters, usedLetters }) => {
     return (
         <tr>
             <div className="key-row">
                 {letters.map(letter => (
-                    <Key letter={letter} />
+                    <Key letter={letter} usedLetters={usedLetters} />
                 ))}
             </div>
         </tr>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useDebugValue } from 'react'
 
-const Tile = ({ word, letter, column, setPressed, setAnswer, pressed, disabled }) => {
+const Tile = ({ word, letter, column, setPressed, setAnswer, pressed, disabled, setUsedLetters }) => {
 
     const [value, setValue] = useState('')
 
@@ -11,6 +11,11 @@ const Tile = ({ word, letter, column, setPressed, setAnswer, pressed, disabled }
             return [...newRow]
         })
         setValue(letter.toLowerCase())
+        // setUsedLetters(letters => [...letters, {
+        //     letter: value,
+        //     backgroundColor: letter === value ? 'green' : word.includes(value) ? 'yellow' : '#8d8984'
+        // }])
+        setUsedLetters(letters => [...letters, value])
     }
 
     useEffect(() => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import TileRow from './TileRow'
 
-const Wordle = ({ question, setIsWon, setCurrentRow, currentRow }) => {
+const Wordle = ({ question, setIsWon, setCurrentRow, currentRow, setUsedLetters }) => {
     const [answer, setAnswer] = useState(['', '', '', '', ''])
     const [word, setWord] = useState([])
     const [rows, setRows] = useState([
@@ -61,6 +61,7 @@ const Wordle = ({ question, setIsWon, setCurrentRow, currentRow }) => {
                 disabled={currentRow === num ? false : true}
                 setCurrentRow={setCurrentRow}
                 setAnswer={setAnswer}
+                setUsedLetters={setUsedLetters}
                 key={num}
             />
         ))

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import wordlist from 'wordle-wordlist'
 import Wordle from './components/wordle/Wordle'
 import EndScreen from './components/wordle/EndScreen'
-import './App.css'
-import wordlist from "wordle-wordlist"
 import Keyboard from './components/wordle/keyboard/Keyboard'
+import './App.css'
 
 function App() {
     const [isWon, setIsWon] = useState(false)
@@ -12,6 +12,7 @@ function App() {
     const [score, setScore] = useState(0)
     const [words, setWords] = useState([])
     const [loading, setLoading] = useState(true)
+    const [usedLetters, setUsedLetters] = useState([])
 
     const compute = (current, row) => {
         return current + (6 / (row + 1)) * 10
@@ -74,12 +75,13 @@ function App() {
                                 setIsWon={setIsWon}
                                 setCurrentRow={setCurrentRow}
                                 currentRow={currentRow}
+                                setUsedLetters={setUsedLetters}
                             />
                         }
                     </div>
                 }
 
-                <Keyboard />
+                <Keyboard usedLetters={usedLetters}/>
             </div>
         </div>
     );
