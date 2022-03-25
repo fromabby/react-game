@@ -18,9 +18,12 @@ export const Key = ({ letter, usedLetters }) => {
      * 
      * 
      */
+
+    const key = usedLetters.find(x => x.letter === letter)
+    
     return (
         <td>
-            <div className="key" style={{ backgroundColor: usedLetters.includes(letter) ? 'red' : 'white'}}>
+            <div className="key" style={{ backgroundColor: key.bgcolor}}>
                 {letter}
             </div>
         </td>

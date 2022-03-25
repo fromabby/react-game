@@ -1,6 +1,6 @@
 import React from 'react'
 
-const EndScreen = ({ setIsWon, isWon, setCurrentRow, setDisplayWinner, setScore }) => {
+const EndScreen = ({ setIsWon, isWon, setCurrentRow, setDisplayWinner, setScore, setUsedLetters, keyboard }) => {
     return (
         <div>
             {isWon ? <>
@@ -9,6 +9,7 @@ const EndScreen = ({ setIsWon, isWon, setCurrentRow, setDisplayWinner, setScore 
                     setIsWon(false)
                     setCurrentRow(0)
                     setDisplayWinner(false)
+                    setUsedLetters(keyboard)
                 }}>Next round</button>
             </> : <>
                 <p>You lost!</p>
@@ -17,6 +18,7 @@ const EndScreen = ({ setIsWon, isWon, setCurrentRow, setDisplayWinner, setScore 
                     setCurrentRow(0)
                     setDisplayWinner(false)
                     setScore(0)
+                    setUsedLetters(keyboard)
                 }}>Try again</button>
             </>}
 

@@ -1,21 +1,32 @@
-import React, { useState, useEffect, useDebugValue } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const Tile = ({ word, letter, column, setPressed, setAnswer, pressed, disabled, setUsedLetters }) => {
 
     const [value, setValue] = useState('')
 
-    const updateRow = letter => {
+    const updateRow = x => {
         setAnswer(row => {
             let newRow = [...row]
-            newRow[column] = letter
+            newRow[column] = x
             return [...newRow]
         })
-        setValue(letter.toLowerCase())
-        // setUsedLetters(letters => [...letters, {
-        //     letter: value,
-        //     backgroundColor: letter === value ? 'green' : word.includes(value) ? 'yellow' : '#8d8984'
-        // }])
-        setUsedLetters(letters => [...letters, value])
+        
+    setUsedLetters(usedLetters => {
+        let letters = [...usedLetters]
+
+        const curr = letters[usedLetters.findIndex(x => x.letter === value)]
+
+        if(curr.bgcolor !== 'green') {
+            letters[usedLetters.findIndex(x => x.letter === value)] = {
+                letter: value,
+                bgcolor: letter === value ? 'green' : word.includes(value) ? 'yellow' : '#8d8984'
+            }
+        }
+
+        return [...letters]
+    })
+    
+        setValue(x.toLowerCase())
     }
 
     useEffect(() => {

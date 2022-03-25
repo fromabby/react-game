@@ -4,7 +4,7 @@ import TileRow from './TileRow'
 const Wordle = ({ question, setIsWon, setCurrentRow, currentRow, setUsedLetters }) => {
     const [answer, setAnswer] = useState(['', '', '', '', ''])
     const [word, setWord] = useState([])
-    const [rows, setRows] = useState([
+    const [, setRows] = useState([
         ['', '', '', '', ''],
         ['', '', '', '', ''],
         ['', '', '', '', ''],

@@ -5,8 +5,8 @@ const Row = ({ letters, usedLetters }) => {
     return (
         <tr>
             <div className="key-row">
-                {letters.map(letter => (
-                    <Key letter={letter} usedLetters={usedLetters} />
+                {letters.map((letter, index) => (
+                    <Key letter={letter} usedLetters={usedLetters} key={index}/>
                 ))}
             </div>
         </tr>

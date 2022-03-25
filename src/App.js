@@ -3,6 +3,7 @@ import wordlist from 'wordle-wordlist'
 import Wordle from './components/wordle/Wordle'
 import EndScreen from './components/wordle/EndScreen'
 import Keyboard from './components/wordle/keyboard/Keyboard'
+import { keyboard } from './keyboard'
 import './App.css'
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
     const [score, setScore] = useState(0)
     const [words, setWords] = useState([])
     const [loading, setLoading] = useState(true)
-    const [usedLetters, setUsedLetters] = useState([])
+    const [usedLetters, setUsedLetters] = useState(keyboard)
 
     const compute = (current, row) => {
         return current + (6 / (row + 1)) * 10
@@ -66,6 +67,8 @@ function App() {
                         setCurrentRow={setCurrentRow}
                         setDisplayWinner={setDisplayWinner}
                         setScore={setScore}
+                        setUsedLetters={setUsedLetters}
+                        keyboard={keyboard}
                     /> :
                     <div>
                         <p style={{ color: 'white' }}>score: {score}</p>
@@ -78,13 +81,12 @@ function App() {
                                 setUsedLetters={setUsedLetters}
                             />
                         }
+                        <Keyboard usedLetters={usedLetters}/>
                     </div>
                 }
-
-                <Keyboard usedLetters={usedLetters}/>
             </div>
         </div>
-    );
+    )
 }
 
 export default App
