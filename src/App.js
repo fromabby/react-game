@@ -55,8 +55,8 @@ function App() {
     return (
         <div>
             <div id="title-container">
-                <h1>MGA WORDS</h1>
-                <p>hindi masasama</p>
+                <h1>HULAAN MO</h1>
+                <p>subheading here</p>
             </div>
             <div id="board-container">
                 {!loading && displayWinner ?
