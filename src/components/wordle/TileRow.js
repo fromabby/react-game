@@ -8,7 +8,7 @@ const TileRow = ({ word, disabled, setCurrentRow, setAnswer, setUsedLetters }) =
     const onKeyUp = e => {
         e.preventDefault()
         setPressed(true)
-        setCurrentRow(v => v + 1)
+        setCurrentRow(rowNum => rowNum + 1)
     }
 
     return (

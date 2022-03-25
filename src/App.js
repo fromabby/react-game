@@ -27,7 +27,7 @@ function App() {
                 setWords(allowedGuesses)
                 setLoading(false)
             } catch (error) {
-                window.alert('wrong')
+                window.alert('no words available')
             }
         }
 
@@ -79,6 +79,7 @@ function App() {
                                 setCurrentRow={setCurrentRow}
                                 currentRow={currentRow}
                                 setUsedLetters={setUsedLetters}
+                                words={words}
                             />
                         }
                         <Keyboard usedLetters={usedLetters}/>

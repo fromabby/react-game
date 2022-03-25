@@ -25,14 +25,14 @@ const Wordle = ({ question, setIsWon, setCurrentRow, currentRow, setUsedLetters 
         }
     }, [question])
 
+    console.log(question)
+
     const compare = (answer, word) => {
         for (var i = 0; i < answer.length; i++) {
             if (answer[i] === '' || answer[i] !== word[i]) return false
         }
         return true
     }
-
-    console.log(question)
 
     useEffect(() => {
         updateRowsContent(answer, currentRow)
@@ -47,7 +47,7 @@ const Wordle = ({ question, setIsWon, setCurrentRow, currentRow, setUsedLetters 
     const updateRowsContent = (answer, index) => {
         if (answer[0] !== '') {
             setRows(row => {
-                let curr = [...row]
+                const curr = [...row]
                 curr[index - 1] = answer
                 return [...curr]
             })
