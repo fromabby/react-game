@@ -14,6 +14,7 @@ function App() {
     const [words, setWords] = useState([])
     const [loading, setLoading] = useState(true)
     const [usedLetters, setUsedLetters] = useState(keyboard)
+    // const [question, setQuestion] = useState('')
 
     const compute = (current, row) => {
         return current + (6 / (row + 1)) * 10
@@ -25,6 +26,7 @@ function App() {
                 const allowedGuesses = await wordlist.guesses()
 
                 setWords(allowedGuesses)
+                // setQuestion(words[getRandomIntInclusive(0, words.length)])
                 setLoading(false)
             } catch (error) {
                 window.alert('no words available')

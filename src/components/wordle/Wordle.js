@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import TileRow from './TileRow'
 
-const Wordle = ({ question, setIsWon, setCurrentRow, currentRow, setUsedLetters }) => {
+const Wordle = ({ question, setIsWon, setCurrentRow, currentRow, setUsedLetters, words }) => {
     const [answer, setAnswer] = useState(['', '', '', '', ''])
     const [word, setWord] = useState([])
     const [, setRows] = useState([
@@ -13,6 +13,7 @@ const Wordle = ({ question, setIsWon, setCurrentRow, currentRow, setUsedLetters 
         ['', '', '', '', '']
     ])
     const [loading, setLoading] = useState(true)
+    const [isInWords, setIsInWords] = useState(false)
 
     useEffect(() => {
         if (loading) {
@@ -34,13 +35,35 @@ const Wordle = ({ question, setIsWon, setCurrentRow, currentRow, setUsedLetters 
         return true
     }
 
+    // useEffect(() => {
+    //     if(!loading && !words.includes(answer)) {
+    //         window.alert('not included in list')
+    //     } else {
+    //         setIsInWords(true)
+    //     }
+    // }, [answer, currentRow])
+
+    // useEffect(() => {
+    //     if(isInWords) {
+    //         updateRowsContent(answer, currentRow)
+    //         if (compare(answer, word)) {
+    //             if (currentRow > -1) {
+    //                 setCurrentRow(v => v - 1)
+    //             }
+    //             setIsWon(true)
+    //         }
+    //     }
+    // }, [isInWords])
+
     useEffect(() => {
-        updateRowsContent(answer, currentRow)
-        if (compare(answer, word)) {
-            if (currentRow > -1) {
-                setCurrentRow(v => v - 1)
+        if(isInWords) {
+            updateRowsContent(answer, currentRow)
+            if (compare(answer, word)) {
+                if (currentRow > -1) {
+                    setCurrentRow(v => v - 1)
+                }
+                setIsWon(true)
             }
-            setIsWon(true)
         }
     }, [answer, currentRow])
 
