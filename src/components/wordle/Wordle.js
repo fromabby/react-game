@@ -56,7 +56,7 @@ const Wordle = ({ question, setIsWon, setCurrentRow, currentRow, setUsedLetters,
     // }, [isInWords])
 
     useEffect(() => {
-        if(isInWords) {
+        // if(isWon) {
             updateRowsContent(answer, currentRow)
             if (compare(answer, word)) {
                 if (currentRow > -1) {
@@ -64,7 +64,7 @@ const Wordle = ({ question, setIsWon, setCurrentRow, currentRow, setUsedLetters,
                 }
                 setIsWon(true)
             }
-        }
+        // }
     }, [answer, currentRow])
 
     const updateRowsContent = (answer, index) => {

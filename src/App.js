@@ -14,6 +14,7 @@ function App() {
     const [words, setWords] = useState([])
     const [loading, setLoading] = useState(true)
     const [usedLetters, setUsedLetters] = useState(keyboard)
+    const [streak, setStreak] = useState(0)
     // const [question, setQuestion] = useState('')
 
     const compute = (current, row) => {
@@ -35,6 +36,7 @@ function App() {
 
         if (isWon) {
             setScore(v => compute(v, currentRow))
+            setStreak(v => v + 1)
             const timeout = setTimeout(() => setDisplayWinner(true), 500)
             return () => { clearTimeout(timeout) }
         } else {
@@ -60,6 +62,8 @@ function App() {
             <div id="title-container">
                 <h1>HULAAN MO</h1>
                 <p>subheading here</p>
+                <p style={{ color: 'white' }}>score: {score}</p>
+                <p style={{ color: 'white' }}>streak: {streak}</p>
             </div>
             <div id="board-container">
                 {!loading && displayWinner ?
@@ -71,9 +75,9 @@ function App() {
                         setScore={setScore}
                         setUsedLetters={setUsedLetters}
                         keyboard={keyboard}
+                        setStreak={setStreak}
                     /> :
                     <div>
-                        <p style={{ color: 'white' }}>score: {score}</p>
                         {words && words.length > 0 &&
                             <Wordle
                                 question={words[getRandomIntInclusive(0, words.length)]}
@@ -84,7 +88,7 @@ function App() {
                                 words={words}
                             />
                         }
-                        <Keyboard usedLetters={usedLetters}/>
+                        <Keyboard usedLetters={usedLetters} />
                     </div>
                 }
             </div>
