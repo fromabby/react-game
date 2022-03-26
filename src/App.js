@@ -15,7 +15,6 @@ function App() {
     const [loading, setLoading] = useState(true)
     const [usedLetters, setUsedLetters] = useState(keyboard)
     const [streak, setStreak] = useState(0)
-    // const [question, setQuestion] = useState('')
 
     const compute = (current, row) => {
         return current + (6 / (row + 1)) * 10
@@ -27,7 +26,6 @@ function App() {
                 const allowedGuesses = await wordlist.guesses()
 
                 setWords(allowedGuesses)
-                // setQuestion(words[getRandomIntInclusive(0, words.length)])
                 setLoading(false)
             } catch (error) {
                 window.alert('no words available')
@@ -51,19 +49,20 @@ function App() {
         }
     }, [currentRow])
 
-    function getRandomIntInclusive(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min; // max & min both included 
-    }
+    const getRandIndex = (max) => Math.floor(Math.random() * (Math.floor(max) + 1))
 
     return (
         <div>
             <div id="title-container">
-                <h1>HULAAN MO</h1>
-                <p>subheading here</p>
-                <p style={{ color: 'white' }}>score: {score}</p>
-                <p style={{ color: 'white' }}>streak: {streak}</p>
+                <h1>WORDLE</h1>
+                <div className="row">
+                    <div className="col">
+                        <p className="score">Score: {score}</p>
+                    </div>
+                    <div className="col">
+                        <p className="score">Streak: {streak}</p>
+                    </div>
+                </div>
             </div>
             <div id="board-container">
                 {!loading && displayWinner ?
@@ -80,17 +79,19 @@ function App() {
                     <div>
                         {words && words.length > 0 &&
                             <Wordle
-                                question={words[getRandomIntInclusive(0, words.length)]}
+                                question={words[getRandIndex(words.length)]}
                                 setIsWon={setIsWon}
                                 setCurrentRow={setCurrentRow}
                                 currentRow={currentRow}
                                 setUsedLetters={setUsedLetters}
-                                words={words}
                             />
                         }
-                        <Keyboard usedLetters={usedLetters} />
+
                     </div>
                 }
+            </div>
+            <div id="keyboard-container">
+                <Keyboard usedLetters={usedLetters} />
             </div>
         </div>
     )
