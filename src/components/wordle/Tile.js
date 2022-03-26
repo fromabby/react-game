@@ -9,21 +9,21 @@ const Tile = ({ word, column, setPressed, setAnswer, pressed, disabled, setUsedL
             newRow[column] = x
             return [...newRow]
         })
-        
-    setUsedLetters(usedLetters => {
-        let letters = [...usedLetters]
 
-        const curr = letters[usedLetters.findIndex(x => x.letter === value)]
+        setUsedLetters(usedLetters => {
+            let letters = [...usedLetters]
 
-        if(curr.bgcolor !== 'green') {
-            letters[usedLetters.findIndex(x => x.letter === value)] = {
-                letter: value,
-                bgcolor: word[column] === value ? 'green' : word.includes(value) ? 'yellow' : '#8d8984'
+            const curr = letters[usedLetters.findIndex(x => x.letter === value)]
+
+            if (curr.bgcolor !== 'green') {
+                letters[usedLetters.findIndex(x => x.letter === value)] = {
+                    letter: value,
+                    bgcolor: word[column] === value ? 'green' : word.includes(value) ? 'yellow' : '#8d8984'
+                }
             }
-        }
 
-        return [...letters]
-    })
+            return [...letters]
+        })
     }
 
     useEffect(() => {

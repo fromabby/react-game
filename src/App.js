@@ -52,7 +52,7 @@ function App() {
     return (
         <div>
             <div id="title-container">
-                <h1>WORDLE</h1>
+                <h1>W0RDL3</h1>
                 <div className="row">
                     <div className="col">
                         <p className={displayWinner ? "score-bigger" : "score"}>Score: <span style={{ color: 'green' }}>{score}</span></p>

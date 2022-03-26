@@ -25,7 +25,7 @@ const Wordle = ({ question, setIsWon, setCurrentRow, currentRow, setUsedLetters 
         }
     }, [question])
 
-    console.log(question)
+    console.log(word)
 
     const compare = (answer, word) => {
         for (var i = 0; i < answer.length; i++) {
