@@ -12,9 +12,9 @@ export const Keyboard = ({ usedLetters }) => {
         <div className="keyboard">
             <table>
                 <tbody>
-                    {letters.map(row => (
-                        <tr>
-                            <Row letters={row} usedLetters={usedLetters}/>
+                    {letters.map((row, index) => (
+                        <tr className="key-row" key={index}>
+                            <Row letters={row} usedLetters={usedLetters} />
                         </tr>
                     ))}
                 </tbody>

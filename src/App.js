@@ -16,9 +16,9 @@ function App() {
     const [usedLetters, setUsedLetters] = useState(keyboard)
     const [streak, setStreak] = useState(0)
 
-    const compute = (current, row) => {
-        return current + (6 / (row + 1)) * 10
-    }
+    const getRandIndex = (max) => Math.floor(Math.random() * (Math.floor(max) + 1))
+
+    const compute = (current, row) => current + (6 / (row + 1)) * 10
 
     useEffect(() => {
         const getWords = async () => {
@@ -49,18 +49,16 @@ function App() {
         }
     }, [currentRow])
 
-    const getRandIndex = (max) => Math.floor(Math.random() * (Math.floor(max) + 1))
-
     return (
         <div>
             <div id="title-container">
                 <h1>WORDLE</h1>
                 <div className="row">
                     <div className="col">
-                        <p className="score">Score: {score}</p>
+                        <p className={displayWinner ? "score-bigger" : "score"}>Score: <span style={{ color: 'green' }}>{score}</span></p>
                     </div>
                     <div className="col">
-                        <p className="score">Streak: {streak}</p>
+                        <p className={displayWinner ? "score-bigger" : "score"}>Streak: <span style={{ color: 'yellow' }}>{streak}</span></p>
                     </div>
                 </div>
             </div>
@@ -86,12 +84,11 @@ function App() {
                                 setUsedLetters={setUsedLetters}
                             />
                         }
-
                     </div>
                 }
             </div>
             <div id="keyboard-container">
-                <Keyboard usedLetters={usedLetters} />
+                {!loading && !displayWinner && <Keyboard usedLetters={usedLetters} />}
             </div>
         </div>
     )
