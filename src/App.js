@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Registration from './components/student-portal/Registration'
 import Login from './components/student-portal/Login'
 import Home from './components/student-portal/Home'
+import './App.css'
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false)

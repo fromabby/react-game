@@ -47,19 +47,44 @@ const Login = ({ setIsAuthenticated, setPage }) => {
     }
 
     return (
-        <div>
-            <form onSubmit={submitHandler}>
-                <input type="text" value={studentNumber} placeholder="student_number" pattern="[0-9]{10}" onChange={e => setLogin({ ...login, studentNumber: e.target.value })} />
-                <input type="password" value={password} placeholder="password" onChange={e => setLogin({ ...login, password: e.target.value })} />
-                <input type="submit" value="Submit" />
-                <input type="button" value="Cancel" onClick={() => setLogin({
-                    studentNumber: '',
-                    password: ''
-                })}/>
-            </form>
-            <button onClick={() => setPage('')}>Back to home</button>
-            <button onClick={() => setPage('register')}>Register</button>
-        </div>
+        <>
+            <div class="container">
+                <div class="forms">
+                    <div class="form login">
+                        <span class="title">Login</span>
+                        <form onSubmit={submitHandler}>
+                            <div class="input-field">
+                                <input type="text" value={studentNumber} placeholder="20xxxxxxxx" pattern="[0-9]{10}" onChange={e => setLogin({ ...login, studentNumber: e.target.value })} maxLength={10} required />
+                            </div>
+                            <div class="input-field">
+                                <input type="password" value={password} placeholder="•••••••••" onChange={e => setLogin({ ...login, password: e.target.value })} required />
+                            </div>
+                            <div class="input-field button">
+                                <input type="submit" value="Submit" />
+                            </div>
+
+                            <div style={{ margin: '0 auto', textAlign: 'center' }}>
+                                <span className='text signup-link' style={{ textDecoration: 'underline', color: 'blue', fontSize: '0.6rem' }} onClick={() => setLogin({
+                                    studentNumber: '',
+                                    password: ''
+                                })}>Cancel</span>
+                            </div>
+                            
+                            <div style={{ margin: '0 auto', textAlign: 'center' }}>
+                                <span className="text signup-link" style={{ textDecoration: 'underline', color: 'blue', fontSize: '0.6rem' }} onClick={() => setPage('')}>Back to home</span>
+                            </div>
+                            <div className="login-signup">
+                                <span className="text">Not a member?
+                                    <span className="text signup-link" style={{ textDecoration: 'underline', color: 'blue', paddingLeft: '5px' }} onClick={() => setPage('register')}>Sign up now</span>
+                                </span>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </>
     )
 }
 
