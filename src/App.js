@@ -6,7 +6,7 @@ import './App.css'
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const [page, setPage] = useState('')
+    const [page, setPage] = useState('login')
     const [user, setUser] = useState()
 
     useEffect(() => {
@@ -30,14 +30,10 @@ function App() {
     return (
         <div>
             {!isAuthenticated ?
-                page === 'login' ? <Login setIsAuthenticated={setIsAuthenticated} setPage={setPage} /> :
-                    page === 'register' ? <Registration setPage={setPage} /> :
-                        <>
-                            <button onClick={() => setPage('login')}>Login</button>
-                            <button onClick={() => setPage('register')}>Register now!</button>
-                        </>
+                page === 'login' ? <Login setIsAuthenticated={setIsAuthenticated} setPage={setPage} setUser={setUser} /> :
+                    page === 'register' && <Registration setPage={setPage} />
                 :
-                <Home setIsAuthenticated={setIsAuthenticated} />
+                <Home setIsAuthenticated={setIsAuthenticated} user={user} setUser={setUser} />
             }
         </div>
     )
