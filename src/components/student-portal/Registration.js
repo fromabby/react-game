@@ -106,11 +106,11 @@ const Registration = ({ setPage }) => {
                                 <div class="input-field">
                                     <select value={year_level} name="year_level" placeholder="Year Level" onChange={onChange}>
                                         <option value=''></option>
-                                        <option value='1'>First Year</option>
-                                        <option value='2'>Second Year</option>
-                                        <option value='3'>Third Year</option>
-                                        <option value='4'>Fourth Year</option>
-                                        <option value='5'>Fifth Year</option>
+                                        <option value='1st Year'>First Year</option>
+                                        <option value='2nd Year'>Second Year</option>
+                                        <option value='3rd Year'>Third Year</option>
+                                        <option value='4th Year'>Fourth Year</option>
+                                        <option value='5th Year'>Fifth Year</option>
                                     </select>
                                 </div>
                             </div>

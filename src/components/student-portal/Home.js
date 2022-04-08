@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 const Home = ({ setIsAuthenticated, setUser, user }) => {
     const logout = () => {
@@ -7,6 +7,12 @@ const Home = ({ setIsAuthenticated, setUser, user }) => {
         setUser({})
     }
 
+    // useEffect(() => {
+    //     setUsers(JSON.parse(localStorage.getItem('users')))
+    //     setCurrentUser(users.find(x => x.student_number !== user.student_number))
+    //     setLoading(false)
+    // }, [user])
+
     const users = JSON.parse(localStorage.getItem('users'))
     const currentUser = users.find(x => x.student_number !== user.student_number)
 
@@ -14,15 +20,11 @@ const Home = ({ setIsAuthenticated, setUser, user }) => {
         <div style={{ color: 'white', textAlign: 'center' }}>
             <h2>Welcome, {currentUser.first_name} {currentUser.middle_name} {currentUser.last_name}!</h2>
             <p>Student Number: {currentUser.student_number}</p>
-            <p>{currentUser.year_level === 1 ? `${currentUser.year_level}st year` :
-                currentUser.year_level === 2 ? `${currentUser.year_level}nd year` :
-                    currentUser.year_level === 3 ? `${currentUser.year_level}rd year` :
-                        `${currentUser.year_level}th year`} {currentUser.college} {currentUser.program}
+            <p>{currentUser.year_level} {currentUser.college} {currentUser.program}
             </p>
             <div className="logout">
                 <button onClick={logout}>Logout</button>
             </div>
-
         </div>
     )
 }

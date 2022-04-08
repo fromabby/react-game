@@ -17,7 +17,7 @@ function App() {
             middle_name: 'Lagrisola',
             college: 'UST-CICS',
             program: 'IT',
-            year_level: '4',
+            year_level: '4th year',
             password: '12231999'
         }]))
         setUser(JSON.parse(localStorage.getItem('student')))
