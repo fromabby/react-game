@@ -8,40 +8,57 @@ import React, { useState } from 'react'
 
 const Login = ({ setIsAuthenticated, setPage }) => {
     const [login, setLogin] = useState({
-        studentNumber: '',
+        student_number: '',
         password: ''
     })
 
-    const { studentNumber, password } = login
+    const { student_number, password } = login
+    const [errMsg, setErrMsg] = useState('')
+
+    const onChange = e => {
+        setLogin({
+            ...login,
+            [e.target.name]: e.target.value
+        })
+        setErrMsg('')
+    }
 
     const submitHandler = e => {
         e.preventDefault()
 
-        if (!findUser(studentNumber)) {
-            window.alert('no user found')
+        if (!findUser(student_number)) {
+            setErrMsg('User does not exist')
         }
 
         if (comparePassword(password)) {
-            localStorage.setItem('student', JSON.stringify(login))
+            localStorage.setItem('student', JSON.stringify(fetchUser(student_number)))
             setIsAuthenticated(true)
         }
     }
 
-    const findUser = studentNumber => {
+    const findUser = student_number => {
         const users = JSON.parse(localStorage.getItem('users'))
         
-        const user = users.find(x => x.student_number === studentNumber)
+        //hanap ng user with that student number
+        const user = users.find(x => x.student_number === student_number)
         // console.log(user)
         if (user) { return true }
 
         return false
     }
 
-    const comparePassword = (password) => {
+    const fetchUser = student_number => {
         const users = JSON.parse(localStorage.getItem('users'))
-        const user = users.find(x => x.student_number === studentNumber)
+
+        return users.find(x => x.student_number === student_number)
+    }
+
+    const comparePassword = password => {
+        const users = JSON.parse(localStorage.getItem('users'))
+        const user = users.find(x => x.student_number === student_number)
         if (user.password === password) { return true }
 
+        setErrMsg('Invalid credentials')
         return false
     }
 
@@ -52,17 +69,20 @@ const Login = ({ setIsAuthenticated, setPage }) => {
                     <span class="title">Login</span>
                     <form onSubmit={submitHandler}>
                         <div class="input-field">
-                            <input type="text" value={studentNumber} placeholder="20xxxxxxxx" pattern="[0-9]{10}" onChange={e => setLogin({ ...login, studentNumber: e.target.value })} maxLength={10} required />
+                            <input type="text" value={student_number} placeholder="20xxxxxxxx" pattern="[0-9]{10}" name="student_number" onChange={onChange} maxLength={10} required />
                         </div>
                         <div class="input-field">
-                            <input type="password" value={password} placeholder="•••••••••" onChange={e => setLogin({ ...login, password: e.target.value })} required />
+                            <input type="password" value={password} placeholder="•••••••••" name="password" onChange={onChange} required />
+                        </div>
+                        <div style={{textAlign: 'center', paddingTop: '10px', color: 'red'}}>
+                            {errMsg}
                         </div>
                         <div class="input-field button">
                             <input type="submit" value="Submit" />
                         </div>
                         <div class="input-field secondary-button">
                             <input type="button" value="Cancel" onClick={() => setLogin({
-                                studentNumber: '',
+                                student_number: '',
                                 password: ''
                             })} />
                         </div>

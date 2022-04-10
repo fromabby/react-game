@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import wordlist from 'wordle-wordlist'
-import Wordle from './components/wordle/Wordle'
-import EndScreen from './components/wordle/EndScreen'
-import Keyboard from './components/wordle/keyboard/Keyboard'
+import Wordle from '../components/wordle/Wordle'
+import EndScreen from '../components/wordle/EndScreen'
+import Keyboard from '../components/wordle/keyboard/Keyboard'
 import { keyboard } from './keyboard'
-import './App.css'
+import './AppGame.css'
 
 function App() {
     const [isWon, setIsWon] = useState(false)
