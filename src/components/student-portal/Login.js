@@ -14,6 +14,8 @@ const Login = ({ setIsAuthenticated, setPage }) => {
 
     const { student_number, password } = login
     const [errMsg, setErrMsg] = useState('')
+    const [color, setColor] = useState('red')
+    const [loading, setLoading] = useState(false)
 
     const onChange = e => {
         setLogin({
@@ -26,19 +28,28 @@ const Login = ({ setIsAuthenticated, setPage }) => {
     const submitHandler = e => {
         e.preventDefault()
 
+        setLoading(true)
         if (!findUser(student_number)) {
+            setLoading(false)
             setErrMsg('User does not exist')
         }
 
         if (comparePassword(password)) {
-            localStorage.setItem('student', JSON.stringify(fetchUser(student_number)))
-            setIsAuthenticated(true)
+            setErrMsg('Logging in...')
+            setColor('green')
+            setLoading(true)
+            const timeout = setTimeout(() => {
+                localStorage.setItem('student', JSON.stringify(fetchUser(student_number)))
+                setIsAuthenticated(true)
+                setLoading(false)
+            }, 2000)
+            return () => clearTimeout(timeout)
         }
     }
 
     const findUser = student_number => {
         const users = JSON.parse(localStorage.getItem('users'))
-        
+
         //hanap ng user with that student number
         const user = users.find(x => x.student_number === student_number)
         // console.log(user)
@@ -59,6 +70,7 @@ const Login = ({ setIsAuthenticated, setPage }) => {
         if (user.password === password) { return true }
 
         setErrMsg('Invalid credentials')
+        setLoading(false)
         return false
     }
 
@@ -74,11 +86,11 @@ const Login = ({ setIsAuthenticated, setPage }) => {
                         <div class="input-field">
                             <input type="password" value={password} placeholder="•••••••••" name="password" onChange={onChange} required />
                         </div>
-                        <div style={{textAlign: 'center', paddingTop: '10px', color: 'red'}}>
+                        <div style={{ textAlign: 'center', paddingTop: '10px', color }}>
                             {errMsg}
                         </div>
                         <div class="input-field button">
-                            <input type="submit" value="Submit" />
+                            <input type="submit" value="Submit" style={loading ? { color: 'gray', cursor: 'default' } : null} disabled={loading} />
                         </div>
                         <div class="input-field secondary-button">
                             <input type="button" value="Cancel" onClick={() => setLogin({

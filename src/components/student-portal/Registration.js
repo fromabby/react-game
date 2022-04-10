@@ -23,6 +23,7 @@ const Registration = ({ setPage }) => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [errMsg, setErrMsg] = useState('')
     const [color, setColor] = useState('red')
+    const [loading, setLoading] = useState(false)
 
     const onChange = e => {
         setUser({
@@ -35,30 +36,33 @@ const Registration = ({ setPage }) => {
     const submitHandler = e => {
         e.preventDefault()
 
-        if(student_number == '') {
-            return 
-        }
+        setLoading(true)
 
         if (!findUser(student_number)) {
+            setLoading(false)
             return
         }
 
         if (password === confirmPassword) {
-            let users = JSON.parse(localStorage.getItem('users'))
-            users.push(user)
-            localStorage.setItem('users', JSON.stringify(users))
-            setErrMsg('User account created')
+            setErrMsg('Creating user account...')
             setColor('green')
-            setTimeout(() => setPage('login'), 2000)
-            
+            const timeout = setTimeout(() => {
+                let users = JSON.parse(localStorage.getItem('users'))
+                users.push(user)
+                localStorage.setItem('users', JSON.stringify(users))
+                setPage('login')
+                setLoading(false)
+            }, 2000)
+            return () => clearTimeout(timeout)
         } else {
             setErrMsg('Passwords do not match')
+            setLoading(false)
         }
+        setLoading(false)
     }
 
     const findUser = student_number => {
         const users = JSON.parse(localStorage.getItem('users'))
-
         const existingUser = users.find(x => x.student_number === student_number)
 
         if (existingUser) {
@@ -78,7 +82,7 @@ const Registration = ({ setPage }) => {
                         <div className="row">
                             <div className="col-12">
                                 <div class="input-field">
-                                    <input type="text" value={student_number} name="student_number" placeholder="Student number (20xxxxxxxx)" pattern="[0-9]{10}" maxLength={10} onChange={onChange} required/>
+                                    <input type="text" value={student_number} name="student_number" placeholder="Student number (20xxxxxxxx)" pattern="[0-9]{10}" maxLength={10} onChange={onChange} required />
                                 </div>
 
                             </div>
@@ -86,29 +90,29 @@ const Registration = ({ setPage }) => {
                         <div className="row">
                             <div className="col-3">
                                 <div class="input-field">
-                                    <input type="text" value={last_name} name="last_name" placeholder="Last name" onChange={onChange} required/>
+                                    <input type="text" value={last_name} name="last_name" placeholder="Last name" onChange={onChange} required />
                                 </div>
                             </div>
                             <div className="col-5">
                                 <div class="input-field">
-                                    <input type="text" value={first_name} name="first_name" placeholder="First name" onChange={onChange} required/>
+                                    <input type="text" value={first_name} name="first_name" placeholder="First name" onChange={onChange} required />
                                 </div>
                             </div>
                             <div className="col-4">
                                 <div class="input-field">
-                                    <input type="text" value={middle_name} name="middle_name" placeholder="Middle name" onChange={onChange} required/>
+                                    <input type="text" value={middle_name} name="middle_name" placeholder="Middle name" onChange={onChange} required />
                                 </div>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-5">
                                 <div class="input-field">
-                                    <input type="text" value={college} name="college" placeholder="College" onChange={onChange} required/>
+                                    <input type="text" value={college} name="college" placeholder="College" onChange={onChange} required />
                                 </div>
                             </div>
                             <div className="col-4">
                                 <div class="input-field">
-                                    <input type="text" value={program} name="program" placeholder="Program" onChange={onChange} required/>
+                                    <input type="text" value={program} name="program" placeholder="Program" onChange={onChange} required />
                                 </div>
                             </div>
                             <div className="col-3">
@@ -127,20 +131,20 @@ const Registration = ({ setPage }) => {
                         <div className="row">
                             <div className="col-6">
                                 <div class="input-field">
-                                    <input type="password" value={password} name="password" placeholder="Password" onChange={onChange} required/>
+                                    <input type="password" value={password} name="password" placeholder="Password" onChange={onChange} required />
                                 </div>
                             </div>
                             <div className="col-6">
                                 <div class="input-field">
-                                    <input type="password" value={confirmPassword} name="confirmPassword" placeholder="Confirm Password" onChange={e => setConfirmPassword(e.target.value)} required/>
+                                    <input type="password" value={confirmPassword} name="confirmPassword" placeholder="Confirm Password" onChange={e => setConfirmPassword(e.target.value)} required />
                                 </div>
                             </div>
                         </div>
-                        <div style={{textAlign: 'center', paddingTop: '10px', color}}>
+                        <div style={{ textAlign: 'center', paddingTop: '10px', color }}>
                             {errMsg}
                         </div>
                         <div class="input-field button">
-                            <input type="submit" value="Register" />
+                            <input type="submit" value="Register" style={loading ? { color: 'gray', cursor: 'default' } : null} disabled={loading} />
                         </div>
                         <div class="input-field secondary-button">
                             <input type="button" value="Cancel" onClick={() => {
@@ -170,3 +174,4 @@ const Registration = ({ setPage }) => {
 }
 
 export default Registration
+
