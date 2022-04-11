@@ -20,9 +20,14 @@ const Registration = ({ setPage }) => {
 
     const { student_number, last_name, first_name, middle_name, college, program, year_level, password } = user
 
+    const [message, setMessage] = useState({
+        text: '',
+        color: 'red'
+    })
+
+    const { text, color } = message
+
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [errMsg, setErrMsg] = useState('')
-    const [color, setColor] = useState('red')
     const [loading, setLoading] = useState(false)
 
     const onChange = e => {
@@ -30,7 +35,7 @@ const Registration = ({ setPage }) => {
             ...user,
             [e.target.name]: e.target.value
         })
-        setErrMsg('')
+        setMessage({ text: '', color: 'red' })
     }
 
     const submitHandler = e => {
@@ -39,13 +44,19 @@ const Registration = ({ setPage }) => {
         setLoading(true)
 
         if (!findUser(student_number)) {
+            setMessage({
+                text: 'User account exists',
+                color: 'red'
+            })
             setLoading(false)
             return
         }
 
         if (password === confirmPassword) {
-            setErrMsg('Creating user account...')
-            setColor('green')
+            setMessage({
+                text: 'Creating user account...',
+                color: 'green'
+            })
             const timeout = setTimeout(() => {
                 let users = JSON.parse(localStorage.getItem('users'))
                 users.push(user)
@@ -55,22 +66,30 @@ const Registration = ({ setPage }) => {
             }, 2000)
             return () => clearTimeout(timeout)
         } else {
-            setErrMsg('Passwords do not match')
+            setMessage({
+                text: 'Passwords do not match',
+                color: 'red'
+            })
             setLoading(false)
         }
+
         setLoading(false)
     }
 
-    const findUser = student_number => {
-        const users = JSON.parse(localStorage.getItem('users'))
-        const existingUser = users.find(x => x.student_number === student_number)
+    const findUser = student_number => JSON.parse(localStorage.getItem('users')).find(x => x.student_number === student_number) ? false : true
 
-        if (existingUser) {
-            setErrMsg('User account exists')
-            return false
-        }
-
-        return true
+    const resetState = () => {
+        setUser({
+            student_number: '',
+            last_name: '',
+            first_name: '',
+            middle_name: '',
+            college: '',
+            program: '',
+            year_level: '',
+            password: ''
+        })
+        setConfirmPassword('')
     }
 
     return (
@@ -84,7 +103,6 @@ const Registration = ({ setPage }) => {
                                 <div class="input-field">
                                     <input type="text" value={student_number} name="student_number" placeholder="Student number (20xxxxxxxx)" pattern="[0-9]{10}" maxLength={10} onChange={onChange} required />
                                 </div>
-
                             </div>
                         </div>
                         <div className="row">
@@ -141,25 +159,13 @@ const Registration = ({ setPage }) => {
                             </div>
                         </div>
                         <div style={{ textAlign: 'center', paddingTop: '10px', color }}>
-                            {errMsg}
+                            {text}
                         </div>
                         <div class="input-field button">
                             <input type="submit" value="Register" style={loading ? { color: 'gray', cursor: 'default' } : null} disabled={loading} />
                         </div>
                         <div class="input-field secondary-button">
-                            <input type="button" value="Cancel" onClick={() => {
-                                setUser({
-                                    student_number: '',
-                                    last_name: '',
-                                    first_name: '',
-                                    middle_name: '',
-                                    college: '',
-                                    program: '',
-                                    year_level: '',
-                                    password: ''
-                                })
-                                setConfirmPassword('')
-                            }} />
+                            <input type="button" value="Cancel" onClick={() => resetState()} />
                         </div>
                         <div className="login-signup">c
                             <span className="text">Already have an account?

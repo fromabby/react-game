@@ -13,16 +13,19 @@ const Login = ({ setIsAuthenticated, setPage }) => {
     })
 
     const { student_number, password } = login
-    const [errMsg, setErrMsg] = useState('')
-    const [color, setColor] = useState('red')
+    const [message, setMessage] = useState({
+        text: '',
+        color: 'red'
+    })
     const [loading, setLoading] = useState(false)
+    const { text, color } = message
 
     const onChange = e => {
         setLogin({
             ...login,
             [e.target.name]: e.target.value
         })
-        setErrMsg('')
+        setMessage({ text: '', color: 'red' })
     }
 
     const submitHandler = e => {
@@ -31,12 +34,17 @@ const Login = ({ setIsAuthenticated, setPage }) => {
         setLoading(true)
         if (!findUser(student_number)) {
             setLoading(false)
-            setErrMsg('User does not exist')
+            setMessage({
+                text: 'User not found',
+                color: 'red'
+            })
         }
 
         if (comparePassword(password)) {
-            setErrMsg('Logging in...')
-            setColor('green')
+            setMessage({
+                text: 'Logging in...',
+                color: 'green'
+            })
             setLoading(true)
             const timeout = setTimeout(() => {
                 localStorage.setItem('student', JSON.stringify(fetchUser(student_number)))
@@ -47,30 +55,21 @@ const Login = ({ setIsAuthenticated, setPage }) => {
         }
     }
 
-    const findUser = student_number => {
-        const users = JSON.parse(localStorage.getItem('users'))
+    const findUser = student_number => JSON.parse(localStorage.getItem('users')).find(x => x.student_number === student_number) ? true : false
 
-        //hanap ng user with that student number
-        const user = users.find(x => x.student_number === student_number)
-        // console.log(user)
-        if (user) { return true }
-
-        return false
-    }
-
-    const fetchUser = student_number => {
-        const users = JSON.parse(localStorage.getItem('users'))
-
-        return users.find(x => x.student_number === student_number)
-    }
+    const fetchUser = student_number => JSON.parse(localStorage.getItem('users')).find(x => x.student_number === student_number)
 
     const comparePassword = password => {
-        const users = JSON.parse(localStorage.getItem('users'))
-        const user = users.find(x => x.student_number === student_number)
+        const user = JSON.parse(localStorage.getItem('users')).find(x => x.student_number === student_number)
+
         if (user.password === password) { return true }
 
-        setErrMsg('Invalid credentials')
+        setMessage({
+            text: 'Invalid credentials',
+            color: 'red'
+        })
         setLoading(false)
+        
         return false
     }
 
@@ -87,16 +86,13 @@ const Login = ({ setIsAuthenticated, setPage }) => {
                             <input type="password" value={password} placeholder="•••••••••" name="password" onChange={onChange} required />
                         </div>
                         <div style={{ textAlign: 'center', paddingTop: '10px', color }}>
-                            {errMsg}
+                            {text}
                         </div>
                         <div class="input-field button">
                             <input type="submit" value="Submit" style={loading ? { color: 'gray', cursor: 'default' } : null} disabled={loading} />
                         </div>
                         <div class="input-field secondary-button">
-                            <input type="button" value="Cancel" onClick={() => setLogin({
-                                student_number: '',
-                                password: ''
-                            })} />
+                            <input type="button" value="Cancel" onClick={() => setLogin({ student_number: '', password: '' })} />
                         </div>
                         <div className="login-signup">
                             <span className="text">Not a member?

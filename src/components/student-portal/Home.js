@@ -3,13 +3,22 @@ import React, { useEffect } from 'react'
 const Home = ({ setIsAuthenticated, setUser, user }) => {
     const logout = () => {
         setIsAuthenticated(false)
-        localStorage.setItem('student', JSON.stringify({}))
-        setUser({})
+        localStorage.removeItem('student')
+        // setUser({})
     }
 
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem('student')))
     }, [user])
+
+    /**
+     * 
+     * 1. login
+     * 2. home displays user details
+     * 3. logout
+     * 4. login again
+     * 5. not displaying user details
+     */
     
     return (
         <div style={{ color: 'white', textAlign: 'center' }}>
