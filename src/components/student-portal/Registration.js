@@ -6,7 +6,7 @@ The registration form must also have the Cancel button.
 
 import React, { useState } from 'react'
 
-const Registration = ({ setPage }) => {
+const Registration = ({ setPage, displayMessage, message }) => {
     const [user, setUser] = useState({
         student_number: '',
         last_name: '',
@@ -19,23 +19,18 @@ const Registration = ({ setPage }) => {
     })
 
     const { student_number, last_name, first_name, middle_name, college, program, year_level, password } = user
-
-    const [message, setMessage] = useState({
-        text: '',
-        color: 'red'
-    })
-
     const { text, color } = message
 
     const [confirmPassword, setConfirmPassword] = useState('')
     const [loading, setLoading] = useState(false)
+    const [isSubmitted, setIsSubmitted] = useState(false)
 
     const onChange = e => {
         setUser({
             ...user,
             [e.target.name]: e.target.value
         })
-        setMessage({ text: '', color: 'red' })
+        displayMessage( '', '')
     }
 
     const submitHandler = e => {
@@ -44,19 +39,14 @@ const Registration = ({ setPage }) => {
         setLoading(true)
 
         if (!findUser(student_number)) {
-            setMessage({
-                text: 'User account exists',
-                color: 'red'
-            })
+            displayMessage('User account exists', 'red')
             setLoading(false)
             return
         }
 
         if (password === confirmPassword) {
-            setMessage({
-                text: 'Creating user account...',
-                color: 'green'
-            })
+            displayMessage('Creating user account...', 'green')
+            setIsSubmitted(true)
             const timeout = setTimeout(() => {
                 let users = JSON.parse(localStorage.getItem('users'))
                 users.push(user)
@@ -66,10 +56,7 @@ const Registration = ({ setPage }) => {
             }, 2000)
             return () => clearTimeout(timeout)
         } else {
-            setMessage({
-                text: 'Passwords do not match',
-                color: 'red'
-            })
+            displayMessage('Passwords do not match', 'red')
             setLoading(false)
         }
 
@@ -90,6 +77,7 @@ const Registration = ({ setPage }) => {
             password: ''
         })
         setConfirmPassword('')
+        displayMessage('', '')
     }
 
     return (
@@ -154,7 +142,10 @@ const Registration = ({ setPage }) => {
                             </div>
                             <div className="col-6">
                                 <div class="input-field">
-                                    <input type="password" value={confirmPassword} name="confirmPassword" placeholder="Confirm Password" onChange={e => setConfirmPassword(e.target.value)} required />
+                                    <input type="password" value={confirmPassword} name="confirmPassword" placeholder="Confirm Password" onChange={e => {
+                                        setConfirmPassword(e.target.value)
+                                        displayMessage('', '')
+                                    }} required />
                                 </div>
                             </div>
                         </div>
@@ -165,7 +156,7 @@ const Registration = ({ setPage }) => {
                             <input type="submit" value="Register" style={loading ? { color: 'gray', cursor: 'default' } : null} disabled={loading} />
                         </div>
                         <div class="input-field secondary-button">
-                            <input type="button" value="Cancel" onClick={() => resetState()} />
+                            <input type="button" value="Cancel" onClick={() => resetState()} style={isSubmitted ? { color: 'gray', cursor: 'default' } : null} disabled={isSubmitted} />
                         </div>
                         <div className="login-signup">c
                             <span className="text">Already have an account?

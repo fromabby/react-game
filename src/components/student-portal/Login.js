@@ -6,27 +6,27 @@ The log-in form must also have Cancel Button.
 
 import React, { useState } from 'react'
 
-const Login = ({ setIsAuthenticated, setPage }) => {
+const Login = ({ setIsAuthenticated, setPage, displayMessage, message }) => {
     const [login, setLogin] = useState({
         student_number: '',
         password: ''
     })
 
     const { student_number, password } = login
-    const [message, setMessage] = useState({
-        text: '',
-        color: 'red'
-    })
-    const [loading, setLoading] = useState(false)
     const { text, color } = message
+    
+    const [loading, setLoading] = useState(false)
+    const [isSubmitted, setIsSubmitted] = useState(false)
 
     const onChange = e => {
         setLogin({
             ...login,
             [e.target.name]: e.target.value
         })
-        setMessage({ text: '', color: 'red' })
+        displayMessage( '', '')
     }
+
+    const users = JSON.parse(localStorage.getItem('users'))
 
     const submitHandler = e => {
         e.preventDefault()
@@ -34,43 +34,34 @@ const Login = ({ setIsAuthenticated, setPage }) => {
         setLoading(true)
         if (!findUser(student_number)) {
             setLoading(false)
-            setMessage({
-                text: 'User not found',
-                color: 'red'
-            })
+            displayMessage('User not found', 'red')
         }
 
         if (comparePassword(password)) {
-            setMessage({
-                text: 'Logging in...',
-                color: 'green'
-            })
+            displayMessage( 'Logging in...','green')
             setLoading(true)
+            setIsSubmitted(true)
             const timeout = setTimeout(() => {
                 localStorage.setItem('student', JSON.stringify(fetchUser(student_number)))
                 setIsAuthenticated(true)
                 setLoading(false)
             }, 2000)
             return () => clearTimeout(timeout)
+        } else {
+            displayMessage('Invalid credentials','red')
+            setLoading(false)
         }
     }
 
-    const findUser = student_number => JSON.parse(localStorage.getItem('users')).find(x => x.student_number === student_number) ? true : false
+    const findUser = student_number => users.find(x => x.student_number === student_number) ? true : false
 
-    const fetchUser = student_number => JSON.parse(localStorage.getItem('users')).find(x => x.student_number === student_number)
+    const fetchUser = student_number => users.find(x => x.student_number === student_number)
 
-    const comparePassword = password => {
-        const user = JSON.parse(localStorage.getItem('users')).find(x => x.student_number === student_number)
+    const comparePassword = password => users.find(x => x.student_number === student_number).password === password ? true : false
 
-        if (user.password === password) { return true }
-
-        setMessage({
-            text: 'Invalid credentials',
-            color: 'red'
-        })
-        setLoading(false)
-        
-        return false
+    const resetState = () => {
+        setLogin({ student_number: '', password: '' })
+        displayMessage( '', '' )
     }
 
     return (
@@ -92,7 +83,7 @@ const Login = ({ setIsAuthenticated, setPage }) => {
                             <input type="submit" value="Submit" style={loading ? { color: 'gray', cursor: 'default' } : null} disabled={loading} />
                         </div>
                         <div class="input-field secondary-button">
-                            <input type="button" value="Cancel" onClick={() => setLogin({ student_number: '', password: '' })} />
+                            <input type="button" value="Cancel" onClick={() => resetState()} style={isSubmitted ? { color: 'gray', cursor: 'default' } : null} disabled={isSubmitted} />
                         </div>
                         <div className="login-signup">
                             <span className="text">Not a member?
@@ -100,9 +91,7 @@ const Login = ({ setIsAuthenticated, setPage }) => {
                             </span>
                         </div>
                     </form>
-
                 </div>
-
             </div>
         </div>
     )

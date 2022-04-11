@@ -8,6 +8,12 @@ function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [page, setPage] = useState('login')
     const [user, setUser] = useState()
+    const [message, setMessage] = useState({
+        text: '',
+        color: 'red'
+    })
+
+    const displayMessage = (text, color) => setMessage( { text, color } )
 
     useEffect(() => {
         localStorage.setItem('users', JSON.stringify([{
@@ -30,10 +36,10 @@ function App() {
     return (
         <div>
             {!isAuthenticated ?
-                page === 'login' ? <Login setIsAuthenticated={setIsAuthenticated} setPage={setPage} setUser={setUser} /> :
+                page === 'login' ? <Login setIsAuthenticated={setIsAuthenticated} setPage={setPage} setUser={setUser} displayMessage={displayMessage} message={message} /> :
                     page === 'register' && <Registration setPage={setPage} />
                 :
-                <Home setIsAuthenticated={setIsAuthenticated} user={user} setUser={setUser} />
+                <Home setIsAuthenticated={setIsAuthenticated} user={user} setUser={setUser} displayMessage={displayMessage} message={message} />
             }
         </div>
     )
