@@ -53,7 +53,9 @@ const Registration = ({ setPage, displayMessage, message }) => {
                 localStorage.setItem('users', JSON.stringify(users))
                 setPage('login')
                 setLoading(false)
+                resetState()
             }, 2000)
+
             return () => clearTimeout(timeout)
         } else {
             displayMessage('Passwords do not match', 'red')
@@ -78,51 +80,52 @@ const Registration = ({ setPage, displayMessage, message }) => {
         })
         setConfirmPassword('')
         displayMessage('', '')
+        setLoading(false)
     }
 
     return (
-        <div class="container-register">
-            <div class="forms">
-                <div class="form register">
-                    <span class="title-register">Register an account</span>
+        <div className="container-register">
+            <div className="forms">
+                <div className="form register">
+                    <span className="title-register">Register an account</span>
                     <form onSubmit={submitHandler}>
                         <div className="row">
                             <div className="col-12">
-                                <div class="input-field">
+                                <div className="input-field">
                                     <input type="text" value={student_number} name="student_number" placeholder="Student number (20xxxxxxxx)" pattern="[0-9]{10}" maxLength={10} onChange={onChange} required />
                                 </div>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-3">
-                                <div class="input-field">
+                                <div className="input-field">
                                     <input type="text" value={last_name} name="last_name" placeholder="Last name" onChange={onChange} required />
                                 </div>
                             </div>
                             <div className="col-5">
-                                <div class="input-field">
+                                <div className="input-field">
                                     <input type="text" value={first_name} name="first_name" placeholder="First name" onChange={onChange} required />
                                 </div>
                             </div>
                             <div className="col-4">
-                                <div class="input-field">
+                                <div className="input-field">
                                     <input type="text" value={middle_name} name="middle_name" placeholder="Middle name" onChange={onChange} required />
                                 </div>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-5">
-                                <div class="input-field">
+                                <div className="input-field">
                                     <input type="text" value={college} name="college" placeholder="College" onChange={onChange} required />
                                 </div>
                             </div>
                             <div className="col-4">
-                                <div class="input-field">
+                                <div className="input-field">
                                     <input type="text" value={program} name="program" placeholder="Program" onChange={onChange} required />
                                 </div>
                             </div>
                             <div className="col-3">
-                                <div class="input-field">
+                                <div className="input-field">
                                     <select value={year_level} name="year_level" placeholder="Year Level" onChange={onChange} required>
                                         <option value=''></option>
                                         <option value='1st Year'>First Year</option>
@@ -136,12 +139,12 @@ const Registration = ({ setPage, displayMessage, message }) => {
                         </div>
                         <div className="row">
                             <div className="col-6">
-                                <div class="input-field">
+                                <div className="input-field">
                                     <input type="password" value={password} name="password" placeholder="Password" onChange={onChange} required />
                                 </div>
                             </div>
                             <div className="col-6">
-                                <div class="input-field">
+                                <div className="input-field">
                                     <input type="password" value={confirmPassword} name="confirmPassword" placeholder="Confirm Password" onChange={e => {
                                         setConfirmPassword(e.target.value)
                                         displayMessage('', '')
@@ -152,10 +155,10 @@ const Registration = ({ setPage, displayMessage, message }) => {
                         <div style={{ textAlign: 'center', paddingTop: '10px', color }}>
                             {text}
                         </div>
-                        <div class="input-field button">
+                        <div className="input-field button">
                             <input type="submit" value="Register" style={loading ? { color: 'gray', cursor: 'default' } : null} disabled={loading} />
                         </div>
-                        <div class="input-field secondary-button">
+                        <div className="input-field secondary-button">
                             <input type="button" value="Cancel" onClick={() => resetState()} style={isSubmitted ? { color: 'gray', cursor: 'default' } : null} disabled={isSubmitted} />
                         </div>
                         <div className="login-signup">c

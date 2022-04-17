@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Home = ({ setIsAuthenticated, setUser, user }) => {
     const logout = () => {
@@ -6,10 +6,7 @@ const Home = ({ setIsAuthenticated, setUser, user }) => {
         localStorage.removeItem('student')
         // setUser({})
     }
-
-    useEffect(() => {
-        setUser(JSON.parse(localStorage.getItem('student')))
-    }, [user])
+    // setUser(JSON.parse(localStorage.getItem('student')))
 
     /**
      * 
@@ -19,7 +16,19 @@ const Home = ({ setIsAuthenticated, setUser, user }) => {
      * 4. login again
      * 5. not displaying user details
      */
-    
+
+    const localUser = JSON.parse(localStorage.getItem('student'))
+
+    useEffect(() => {
+        if (user && user.student_number !== localUser.student_number) {
+            setUser(JSON.parse(localStorage.getItem('student')))
+        } else if (user) {
+            setUser(user)
+        } else {
+            setUser(JSON.parse(localStorage.getItem('student')))
+        }
+    }, [localUser])
+
     return (
         <div style={{ color: 'white', textAlign: 'center' }}>
             <h2>Welcome, {user.first_name} {user.middle_name} {user.last_name}!</h2>

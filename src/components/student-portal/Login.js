@@ -6,7 +6,7 @@ The log-in form must also have Cancel Button.
 
 import React, { useState } from 'react'
 
-const Login = ({ setIsAuthenticated, setPage, displayMessage, message }) => {
+const Login = ({ setPage, displayMessage, message }) => {
     const [login, setLogin] = useState({
         student_number: '',
         password: ''
@@ -14,7 +14,7 @@ const Login = ({ setIsAuthenticated, setPage, displayMessage, message }) => {
 
     const { student_number, password } = login
     const { text, color } = message
-    
+
     const [loading, setLoading] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
 
@@ -23,7 +23,7 @@ const Login = ({ setIsAuthenticated, setPage, displayMessage, message }) => {
             ...login,
             [e.target.name]: e.target.value
         })
-        displayMessage( '', '')
+        displayMessage('', '')
     }
 
     const users = JSON.parse(localStorage.getItem('users'))
@@ -32,23 +32,28 @@ const Login = ({ setIsAuthenticated, setPage, displayMessage, message }) => {
         e.preventDefault()
 
         setLoading(true)
+
         if (!findUser(student_number)) {
             setLoading(false)
             displayMessage('User not found', 'red')
         }
 
         if (comparePassword(password)) {
-            displayMessage( 'Logging in...','green')
+            displayMessage('Logging in...', 'green')
             setLoading(true)
             setIsSubmitted(true)
-            const timeout = setTimeout(() => {
-                localStorage.setItem('student', JSON.stringify(fetchUser(student_number)))
-                setIsAuthenticated(true)
-                setLoading(false)
-            }, 2000)
-            return () => clearTimeout(timeout)
+            // const timeout = setTimeout(() => {
+            //     localStorage.setItem('student', JSON.stringify(fetchUser(student_number)))
+            //     // setIsAuthenticated(true)
+            //     setLoading(false)
+            // }, 2000)
+
+            // return () => clearTimeout(timeout)
+
+            window.alert(`Hello, ${fetchUser(student_number).first_name}`)
+            resetState()
         } else {
-            displayMessage('Invalid credentials','red')
+            displayMessage('Invalid credentials', 'red')
             setLoading(false)
         }
     }
@@ -61,28 +66,29 @@ const Login = ({ setIsAuthenticated, setPage, displayMessage, message }) => {
 
     const resetState = () => {
         setLogin({ student_number: '', password: '' })
-        displayMessage( '', '' )
+        displayMessage('', '')
+        setLoading(false)
     }
 
     return (
-        <div class="container">
-            <div class="forms">
-                <div class="form login">
-                    <span class="title">Login</span>
+        <div className="container">
+            <div className="forms">
+                <div className="form login">
+                    <span className="title">Login</span>
                     <form onSubmit={submitHandler}>
-                        <div class="input-field">
+                        <div className="input-field">
                             <input type="text" value={student_number} placeholder="20xxxxxxxx" pattern="[0-9]{10}" name="student_number" onChange={onChange} maxLength={10} required />
                         </div>
-                        <div class="input-field">
+                        <div className="input-field">
                             <input type="password" value={password} placeholder="•••••••••" name="password" onChange={onChange} required />
                         </div>
                         <div style={{ textAlign: 'center', paddingTop: '10px', color }}>
                             {text}
                         </div>
-                        <div class="input-field button">
+                        <div className="input-field button">
                             <input type="submit" value="Submit" style={loading ? { color: 'gray', cursor: 'default' } : null} disabled={loading} />
                         </div>
-                        <div class="input-field secondary-button">
+                        <div className="input-field secondary-button">
                             <input type="button" value="Cancel" onClick={() => resetState()} style={isSubmitted ? { color: 'gray', cursor: 'default' } : null} disabled={isSubmitted} />
                         </div>
                         <div className="login-signup">

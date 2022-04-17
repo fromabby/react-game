@@ -5,7 +5,7 @@ import Home from './components/student-portal/Home'
 import './App.css'
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
+    // const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [page, setPage] = useState('login')
     const [user, setUser] = useState()
     const [message, setMessage] = useState({
@@ -13,7 +13,7 @@ function App() {
         color: 'red'
     })
 
-    const displayMessage = (text, color) => setMessage( { text, color } )
+    const displayMessage = (text, color) => setMessage({ text, color })
 
     useEffect(() => {
         localStorage.setItem('users', JSON.stringify([{
@@ -28,20 +28,23 @@ function App() {
         }]))
         setUser(JSON.parse(localStorage.getItem('student')))
 
-        if (user) {
-            setIsAuthenticated(true)
-        }
+        // if (user) {
+        //     setIsAuthenticated(true)
+        // }
     }, [])
 
     return (
-        <div>
-            {!isAuthenticated ?
-                page === 'login' ? <Login setIsAuthenticated={setIsAuthenticated} setPage={setPage} setUser={setUser} displayMessage={displayMessage} message={message} /> :
-                    page === 'register' && <Registration setPage={setPage} />
-                :
-                <Home setIsAuthenticated={setIsAuthenticated} user={user} setUser={setUser} displayMessage={displayMessage} message={message} />
-            }
-        </div>
+        // <div>
+        //     {!isAuthenticated ?
+        //         page === 'login' ? <Login setIsAuthenticated={setIsAuthenticated} setPage={setPage} setUser={setUser} displayMessage={displayMessage} message={message} /> : <Registration setPage={setPage} displayMessage={displayMessage} message={message} />
+        //         :
+        //         <Home setIsAuthenticated={setIsAuthenticated} user={user} setUser={setUser} displayMessage={displayMessage} message={message} />
+        //     }
+        // </div>
+        page === 'login' ?
+            <Login setPage={setPage} setUser={setUser} displayMessage={displayMessage} message={message} />
+            :
+            <Registration setPage={setPage} displayMessage={displayMessage} message={message} />
     )
 }
 
