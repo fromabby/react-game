@@ -30,7 +30,7 @@ const Registration = ({ setPage, displayMessage, message }) => {
             ...user,
             [e.target.name]: e.target.value
         })
-        displayMessage( '', '')
+        displayMessage('', '')
     }
 
     const submitHandler = e => {
@@ -45,24 +45,24 @@ const Registration = ({ setPage, displayMessage, message }) => {
         }
 
         if (password === confirmPassword) {
-            displayMessage('Creating user account...', 'green')
-            setIsSubmitted(true)
-            const timeout = setTimeout(() => {
-                let users = JSON.parse(localStorage.getItem('users'))
-                users.push(user)
-                localStorage.setItem('users', JSON.stringify(users))
-                setPage('login')
-                setLoading(false)
-                resetState()
-            }, 2000)
+            if (window.confirm('Your details are being saved...')) {
+                displayMessage('Creating user account...', 'green')
+                setIsSubmitted(true)
+                const timeout = setTimeout(() => {
+                    let users = JSON.parse(localStorage.getItem('users'))
+                    users.push(user)
+                    localStorage.setItem('users', JSON.stringify(users))
+                    setPage('login')
+                    setLoading(false)
+                    resetState()
+                }, 2000)
 
-            return () => clearTimeout(timeout)
+                return () => clearTimeout(timeout)
+            }
         } else {
             displayMessage('Passwords do not match', 'red')
             setLoading(false)
         }
-
-        setLoading(false)
     }
 
     const findUser = student_number => JSON.parse(localStorage.getItem('users')).find(x => x.student_number === student_number) ? false : true
@@ -161,7 +161,7 @@ const Registration = ({ setPage, displayMessage, message }) => {
                         <div className="input-field secondary-button">
                             <input type="button" value="Cancel" onClick={() => resetState()} style={isSubmitted ? { color: 'gray', cursor: 'default' } : null} disabled={isSubmitted} />
                         </div>
-                        <div className="login-signup">c
+                        <div className="login-signup">
                             <span className="text">Already have an account?
                                 <span className="text signup-link" style={{ textDecoration: 'underline', color: '#4070f4', paddingLeft: '5px', cursor: 'pointer' }} onClick={() => setPage('login')}>Login</span>
                             </span>
