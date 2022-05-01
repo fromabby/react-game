@@ -93,11 +93,8 @@ const Registration = ({ setPage, displayMessage, message }) => {
     }
 
     const validate = (e, message) => {
-        if(e._reactName === 'onInvalid') {
-            e.target.setCustomValidity(message)
-        } else {
-            e.target.setCustomValidity('')
-        }
+        if(e._reactName === 'onInvalid') e.target.setCustomValidity(message)
+        else e.target.setCustomValidity(message)
     }
 
     return (
