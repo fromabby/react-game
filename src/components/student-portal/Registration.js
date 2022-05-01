@@ -2,6 +2,15 @@
 For the Registration Form, the user can encode his/her details and when he/she click the Submit button,
 a message will pop telling the user that the details are being saved.
 The registration form must also have the Cancel button.
+
+student ID number - must be 10 digit number
+password be:
+at least 8 characters with at least
+1 special character
+1 uppercase letter
+1 number
+password and confirm password must be the same value 
+all fields are required 
  */
 
 import React, { useState } from 'react'
@@ -83,6 +92,14 @@ const Registration = ({ setPage, displayMessage, message }) => {
         setLoading(false)
     }
 
+    const validate = (e, message) => {
+        if(e._reactName === 'onInvalid') {
+            e.target.setCustomValidity(message)
+        } else {
+            e.target.setCustomValidity('')
+        }
+    }
+
     return (
         <div className="container-register">
             <div className="forms">
@@ -92,7 +109,7 @@ const Registration = ({ setPage, displayMessage, message }) => {
                         <div className="row">
                             <div className="col-12">
                                 <div className="input-field">
-                                    <input type="text" value={student_number} name="student_number" placeholder="Student number (20xxxxxxxx)" pattern="[0-9]{10}" maxLength={10} onChange={onChange} required />
+                                    <input type="text" value={student_number} name="student_number" placeholder="Student number (20xxxxxxxx)" pattern="[0-9]{10}" maxLength={10} onChange={onChange} required onInvalid={e => validate(e, 'Student number must be a 10 digit number')} onInput={e => validate(e, '')}/>
                                 </div>
                             </div>
                         </div>
@@ -140,15 +157,15 @@ const Registration = ({ setPage, displayMessage, message }) => {
                         <div className="row">
                             <div className="col-6">
                                 <div className="input-field">
-                                    <input type="password" value={password} name="password" placeholder="Password" onChange={onChange} required />
+                                    <input type="password" value={password} name="password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" placeholder="Password" onChange={onChange} onInvalid={e => validate(e, 'Password must be more than 7 characters with at least 1 special character, 1 uppercase letter, and 1 number')} onInput={e => validate(e, '')} minLength={8} required />
                                 </div>
                             </div>
                             <div className="col-6">
                                 <div className="input-field">
-                                    <input type="password" value={confirmPassword} name="confirmPassword" placeholder="Confirm Password" onChange={e => {
+                                    <input type="password" value={confirmPassword} name="confirmPassword" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" placeholder="Confirm Password" onChange={e => {
                                         setConfirmPassword(e.target.value)
                                         displayMessage('', '')
-                                    }} required />
+                                    }}  onInvalid={e => validate(e, 'Password must be more than 7 characters with at least 1 special character, 1 uppercase letter, and 1 number')} onInput={e => validate(e, '')} minLength={8} required />
                                 </div>
                             </div>
                         </div>

@@ -42,13 +42,6 @@ const Login = ({ setPage, displayMessage, message }) => {
             displayMessage('Logging in...', 'green')
             setLoading(true)
             setIsSubmitted(true)
-            // const timeout = setTimeout(() => {
-            //     localStorage.setItem('student', JSON.stringify(fetchUser(student_number)))
-            //     // setIsAuthenticated(true)
-            //     setLoading(false)
-            // }, 2000)
-
-            // return () => clearTimeout(timeout)
 
             window.alert(`Hello, ${fetchUser(student_number).first_name}`)
             resetState()
